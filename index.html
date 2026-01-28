@@ -6,91 +6,142 @@
     <title>Bao Hên Hứng - Mở là hên!</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --red: #D40000; --gold: #FFD700; --gold-grad: linear-gradient(135deg, #BF953F, #FCF6BA, #AA771C); }
-        body { margin: 0; padding: 0; background: #500000; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; background-size: cover; display: flex; flex-direction: column; }
+        :root { 
+            --red: #D40000; 
+            --red-dark: #8B0000;
+            --gold: #FFD700; 
+            --gold-grad: linear-gradient(135deg, #BF953F, #FCF6BA, #AA771C); 
+        }
+        body { margin: 0; padding: 0; background: #400000; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; background-size: cover; }
         body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(circle, rgba(212,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%); z-index: -1; }
 
-        .display-container { display: grid; grid-template-columns: 1fr 380px; flex: 1; padding: 20px; gap: 20px; box-sizing: border-box; }
-        @media (max-width: 1024px) { .display-container { grid-template-columns: 1fr; } }
+        /* BỐ CỤC 3 PHẦN */
+        .main-layout { 
+            display: grid; 
+            grid-template-columns: 320px 1fr 320px; 
+            height: 100vh; 
+            padding: 20px; 
+            gap: 20px; 
+            box-sizing: border-box; 
+        }
 
-        /* HEADER */
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-size: 3.5rem; color: var(--gold); margin: 0; text-transform: uppercase; text-shadow: 3px 3px 0px #000; }
-        .header p { font-size: 1.2rem; color: var(--gold); font-weight: bold; font-style: italic; }
+        @media (max-width: 1200px) {
+            .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
+            .side-panel { height: 400px; }
+        }
 
-        /* KHO LÌ XÌ */
-        .lixi-stats { background: rgba(0,0,0,0.5); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-        .stat-card { text-align: center; border-right: 1px solid #444; }
-        .stat-card:last-child { border: none; }
-        .stat-val { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
-        .stat-qty { font-size: 0.8rem; color: #fff; opacity: 0.8; }
+        /* KHUNG TRÁI - KHO LÌ XÌ */
+        .side-panel {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--gold);
+            border-radius: 25px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
 
-        /* VÒNG QUAY */
-        .wheel-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .panel-title {
+            color: var(--gold);
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 900;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .lixi-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(212,0,0,0.4), transparent);
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            border-right: 3px solid var(--gold);
+            transition: 0.3s;
+        }
+        .lixi-item.out-of-stock { opacity: 0.3; filter: grayscale(1); }
+        .lixi-val { font-size: 1.3rem; font-weight: 900; color: var(--gold); }
+        .lixi-qty { background: var(--gold); color: var(--red-dark); padding: 2px 10px; border-radius: 20px; font-weight: bold; }
+
+        /* KHUNG GIỮA - VÒNG QUAY */
+        .center-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .header h1 { font-size: 3rem; color: var(--gold); margin: 0; text-transform: uppercase; text-shadow: 3px 3px 0px #000; }
+        .header p { font-size: 1.1rem; color: var(--gold); font-weight: bold; font-style: italic; margin: 5px 0 20px; }
+
         .wheel-container { position: relative; width: 500px; height: 500px; }
-        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; border: 10px solid var(--gold); background: var(--red); }
-        .pointer { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 45px; height: 55px; background: var(--gold-grad); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 5; }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; border: 12px solid var(--gold); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .pointer { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); width: 45px; height: 60px; background: var(--gold-grad); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 5; }
 
-        /* NÚT NHẬN LÌ XÌ */
         .btn-receive {
-            margin-top: 30px; padding: 20px 60px; font-size: 1.8rem; font-weight: 900;
-            background: var(--gold-grad); color: #8B0000; border: 4px solid #FFF;
+            margin-top: 25px; padding: 18px 50px; font-size: 1.6rem; font-weight: 900;
+            background: var(--gold-grad); color: var(--red-dark); border: 4px solid #FFF;
             border-radius: 50px; cursor: pointer; transition: 0.3s;
             box-shadow: 0 0 30px var(--gold); text-transform: uppercase;
             animation: bounce 2s infinite;
         }
-        .btn-receive:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--gold); background: #FFF; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .btn-receive:hover { transform: scale(1.05); background: #FFF; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        /* VINH DANH */
-        .sidebar { background: linear-gradient(180deg, #D40000 0%, #700000 100%); border: 3px solid var(--gold); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        /* KHUNG PHẢI - LỊCH SỬ */
         .history-list { overflow-y: auto; flex: 1; }
-        .history-item { padding: 10px; background: rgba(255,255,255,0.1); border-left: 4px solid var(--gold); margin-bottom: 8px; border-radius: 8px; }
+        .history-item { padding: 10px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--gold); margin-bottom: 8px; border-radius: 8px; font-size: 0.9rem; }
 
         /* POPUP BAO LÌ XÌ */
-        #lixiPopup { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        #lixiPopup { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .lixi-envelope {
-            width: 300px; height: 500px; background: #EE0000; border: 5px solid var(--gold);
-            border-radius: 15px; position: relative; display: flex; flex-direction: column;
-            align-items: center; padding: 40px 20px; text-align: center;
-            box-shadow: 0 0 100px var(--gold); animation: openLixi 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 280px; height: 450px; background: #EE0000; border: 4px solid var(--gold);
+            border-radius: 15px; display: flex; flex-direction: column; align-items: center; 
+            padding: 40px 20px; text-align: center; box-shadow: 0 0 80px var(--gold);
+            animation: openLixi 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes openLixi { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1) rotate(0); } }
-        .lixi-envelope::before { content: "🧧"; font-size: 4rem; margin-bottom: 20px; }
+        @keyframes openLixi { from { transform: scale(0) rotate(-15deg); } to { transform: scale(1) rotate(0); } }
         .lixi-value { font-size: 3rem; font-weight: 900; color: var(--gold); margin: 30px 0; text-shadow: 2px 2px 0px #000; }
+        
+        .admin-link { color: var(--gold); text-decoration: none; font-size: 0.7rem; margin-top: 10px; opacity: 0.5; }
     </style>
 </head>
 <body id="mainBody">
-    <div class="display-container">
-        <div class="wheel-box">
+
+    <div class="main-layout">
+        <div class="side-panel">
+            <div class="panel-title">🧧 KHO LÌ XÌ</div>
+            <div id="statsArea" style="overflow-y: auto; flex: 1;">
+                </div>
+        </div>
+
+        <div class="center-panel">
             <div class="header">
                 <h1>Bao Hên Hứng</h1>
                 <p>Mở bao là hên - Nhận quà là hứng!</p>
             </div>
             
-            <div id="statsArea" class="lixi-stats"></div>
-
             <div class="wheel-container">
                 <div class="pointer"></div>
                 <canvas id="wheelCanvas" width="500" height="500"></canvas>
             </div>
 
-            <button class="btn-receive" id="spinBtn" onclick="spinLixi()">🧧 NHẬN LÌ XÌ 🧧</button>
+            <button class="btn-receive" onclick="spinLixi()">🧧 NHẬN LÌ XÌ 🧧</button>
         </div>
 
-        <div class="sidebar">
-            <h2 style="color:var(--gold); border-bottom:2px solid var(--gold); text-align:center; padding-bottom:10px;">LỘC ĐÃ TRAO</h2>
+        <div class="side-panel">
+            <div class="panel-title">🎊 LỘC ĐÃ TRAO</div>
             <div id="historyList" class="history-list"></div>
-            <a href="admin.html" style="color:var(--gold); text-align:center; margin-top:10px; text-decoration:none; font-size:0.8rem;">⚙️ QUẢN LÝ KHO</a>
+            <a href="admin.html" class="admin-link">CÀI ĐẶT HỆ THỐNG</a>
         </div>
     </div>
 
     <div id="lixiPopup">
         <div class="lixi-envelope">
-            <h2 style="color: white; margin: 0;">CHÚC MỪNG</h2>
-            <p style="color: var(--gold);">Bạn đã nhận được</p>
+            <div style="font-size: 4rem;">🧧</div>
+            <h2 style="color: white; margin: 10px 0;">CHÚC MỪNG</h2>
+            <p style="color: var(--gold); margin: 0;">Bạn đã nhận được</p>
             <div class="lixi-value" id="winnerVal">...</div>
-            <button onclick="closePopup()" style="background: var(--gold); color:#8B0000; border:none; padding:15px 40px; border-radius:50px; font-weight:bold; cursor:pointer;">CẢM ƠN 🧧</button>
+            <button onclick="closePopup()" style="background: var(--gold); color:#8B0000; border:none; padding:15px 40px; border-radius:50px; font-weight:bold; cursor:pointer; margin-top: auto;">CẢM ƠN 🧧</button>
         </div>
     </div>
 
@@ -109,24 +160,25 @@
         function updateStatsUI() {
             const area = document.getElementById('statsArea');
             area.innerHTML = lixiData.map(item => `
-                <div class="stat-card">
-                    <div class="stat-val">${item.val}</div>
-                    <div class="stat-qty">Còn: ${item.qty}</div>
+                <div class="lixi-item ${item.qty <= 0 ? 'out-of-stock' : ''}">
+                    <div class="lixi-val">${item.val}</div>
+                    <div class="lixi-qty">${item.qty} bao</div>
                 </div>
             `).join('');
         }
 
         function drawWheel() {
-            const arc = (2 * Math.PI) / (lixiData.length || 1);
+            const activeItems = lixiData;
+            const arc = (2 * Math.PI) / (activeItems.length || 1);
             ctx.clearRect(0,0,500,500);
-            if(lixiData.length === 0) {
-                ctx.beginPath(); ctx.fillStyle = "#8B0000"; ctx.arc(250,250,240,0,Math.PI*2); ctx.fill();
-                return;
-            }
-            lixiData.forEach((item, i) => {
+            if(activeItems.length === 0) return;
+
+            activeItems.forEach((item, i) => {
                 const angle = currentAngle + i * arc;
                 ctx.beginPath(); ctx.fillStyle = i % 2 === 0 ? "#D40000" : "#FFD700";
                 ctx.moveTo(250,250); ctx.arc(250,250,240,angle,angle+arc); ctx.fill();
+                ctx.strokeStyle = "#BF953F"; ctx.lineWidth = 2; ctx.stroke();
+                
                 ctx.save(); ctx.translate(250,250); ctx.rotate(angle+arc/2); ctx.textAlign="right";
                 ctx.fillStyle = i % 2 === 0 ? "#FFD700" : "#000"; ctx.font="bold 18px Arial";
                 ctx.fillText(item.val, 230, 10); ctx.restore();
@@ -135,13 +187,11 @@
 
         function spinLixi() {
             if (isSpinning) return;
-            // Kiểm tra xem còn lì xì không
             const total = lixiData.reduce((acc, curr) => acc + curr.qty, 0);
             if(total <= 0) { alert("Hết lì xì rồi bạn ơi!"); return; }
 
             isSpinning = true;
-            tickSound.play().catch(()=>{});
-            const duration = Math.floor(Math.random()*5000) + 5000;
+            const duration = Math.floor(Math.random()*4001) + 5000; // 5s - 9s
             const startAngle = currentAngle;
             const extraRotation = (Math.random()*5 + 10) * 2 * Math.PI;
             const start = performance.now();
@@ -163,37 +213,4 @@
 
         function finishSpin() {
             const arc = (2 * Math.PI) / lixiData.length;
-            const index = Math.floor(((1.5 * Math.PI - currentAngle) % (2 * Math.PI) + (2 * Math.PI)) % (2 * Math.PI) / arc);
-            
-            // Xử lý nếu mệnh giá đó hết số lượng
-            if(lixiData[index].qty <= 0) {
-                // Quay lại nhẹ để trúng ô khác hoặc báo lỗi (Ở đây tôi cho quay tiếp tự động 1 đoạn ngắn)
-                currentAngle += 0.2;
-                isSpinning = false;
-                spinLixi();
-                return;
-            }
-
-            const winner = lixiData[index];
-            winner.qty--; // Trừ số lượng
-            localStorage.setItem('h_lixi_config', JSON.stringify(lixiData));
-            
-            winSound.play().catch(()=>{});
-            document.getElementById('winnerVal').innerText = winner.val;
-            document.getElementById('lixiPopup').style.display = 'flex';
-            confetti({ particleCount: 300, spread: 100, colors: ['#FFD700', '#FFFFFF'] });
-            
-            const li = document.createElement('div'); li.className = 'history-item';
-            li.innerHTML = `Lộc <strong>${winner.val}</strong> lúc ${new Date().toLocaleTimeString()}`;
-            document.getElementById('historyList').prepend(li);
-            
-            updateStatsUI();
-            isSpinning = false;
-        }
-
-        function closePopup() { document.getElementById('lixiPopup').style.display = 'none'; }
-        window.addEventListener('storage', loadData);
-        loadData();
-    </script>
-</body>
-</html>
+            const index = Math.floor(((
