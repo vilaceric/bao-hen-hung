@@ -15,79 +15,40 @@
         body { margin: 0; padding: 0; background: #400000; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; overflow-x: hidden; }
         body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(circle, rgba(212,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%); z-index: -1; }
 
-        .header { text-align: center; padding: 30px 0 10px; width: 100%; }
-        .header h1 { font-size: 3.5rem; color: var(--gold); margin: 0; text-transform: uppercase; text-shadow: 3px 3px 0px #000; font-weight: 900; }
-        .header p { font-size: 1.3rem; color: var(--gold); font-weight: bold; font-style: italic; margin: 10px 0; }
+        .header { text-align: center; padding: 25px 0 10px; width: 100%; }
+        .header h1 { font-size: 3.2rem; color: var(--gold); margin: 0; text-transform: uppercase; text-shadow: 3px 3px 0px #000; font-weight: 900; }
+        .header p { font-size: 1.2rem; color: var(--gold); font-weight: bold; font-style: italic; margin: 10px 0; }
 
         .main-layout { 
-            display: grid; 
-            grid-template-columns: 320px 1fr 320px; 
-            height: calc(100vh - 150px); 
-            padding: 0 25px 25px; 
-            gap: 25px; 
-            box-sizing: border-box; 
+            display: grid; grid-template-columns: 320px 1fr 320px; 
+            height: calc(100vh - 150px); padding: 0 25px 25px; gap: 25px; box-sizing: border-box; 
         }
 
-        @media (max-width: 1200px) {
-            .main-layout { grid-template-columns: 1fr; height: auto; }
-            .side-panel { height: 400px; }
-        }
+        @media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; height: auto; } }
 
-        .side-panel {
-            background: rgba(0, 0, 0, 0.7); border: 2px solid var(--gold);
-            border-radius: 25px; padding: 20px; display: flex; flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-        }
+        .side-panel { background: rgba(0, 0, 0, 0.75); border: 2px solid var(--gold); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+        .panel-title { color: var(--gold); text-align: center; text-transform: uppercase; font-weight: 900; border-bottom: 2px solid var(--gold); padding-bottom: 12px; margin-bottom: 15px; }
 
-        .panel-title {
-            color: var(--gold); text-align: center; text-transform: uppercase;
-            font-weight: 900; border-bottom: 2px solid var(--gold);
-            padding-bottom: 12px; margin-bottom: 15px; letter-spacing: 1px;
-        }
-
-        .lixi-item {
-            display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(90deg, rgba(212,0,0,0.4), transparent);
-            padding: 12px 15px; margin-bottom: 10px; border-radius: 12px;
-            border-right: 4px solid var(--gold); transition: 0.3s;
-        }
+        .lixi-item { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, rgba(212,0,0,0.4), transparent); padding: 12px 15px; margin-bottom: 10px; border-radius: 12px; border-right: 4px solid var(--gold); }
         .lixi-item.out-of-stock { opacity: 0.2; filter: grayscale(1); }
-        .lixi-val { font-size: 1.3rem; font-weight: 900; color: var(--gold); }
-        .lixi-qty { background: var(--gold); color: var(--red-dark); padding: 2px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+        .lixi-val { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
+        .lixi-qty { background: var(--gold); color: var(--red-dark); padding: 2px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; }
 
         .center-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-container { position: relative; width: 480px; height: 480px; }
-        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; border: 15px solid var(--gold); box-shadow: 0 0 60px rgba(0,0,0,0.8); }
-        .pointer { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); width: 50px; height: 65px; background: var(--gold-grad); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 5; }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; border: 12px solid var(--gold); box-shadow: 0 0 60px rgba(0,0,0,0.8); }
+        .pointer { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); width: 45px; height: 60px; background: var(--gold-grad); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 5; }
 
-        .btn-receive {
-            margin-top: 30px; padding: 20px 60px; font-size: 1.8rem; font-weight: 900;
-            background: var(--gold-grad); color: var(--red-dark); border: 4px solid #FFF;
-            border-radius: 50px; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 0 40px var(--gold); text-transform: uppercase;
-            animation: bounce 2s infinite;
-        }
-        .btn-receive:hover { transform: scale(1.05); filter: brightness(1.1); }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .btn-receive { margin-top: 25px; padding: 18px 50px; font-size: 1.6rem; font-weight: 900; background: var(--gold-grad); color: var(--red-dark); border: 4px solid #FFF; border-radius: 50px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 35px var(--gold); text-transform: uppercase; animation: bounce 2s infinite; }
+        .btn-receive:hover { transform: scale(1.05); }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        .btn-config {
-            background: var(--gold-grad); color: #000; padding: 12px;
-            border-radius: 12px; text-decoration: none; font-weight: 900;
-            text-align: center; margin-top: auto; font-size: 0.85rem; border: 1px solid #FFF;
-        }
-
-        .history-list { overflow-y: auto; flex: 1; }
-        .history-item { padding: 12px; background: rgba(255,255,255,0.05); border-left: 5px solid var(--gold); margin-bottom: 8px; border-radius: 10px; font-size: 1rem; }
+        .btn-config { background: var(--gold-grad); color: #000; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 900; text-align: center; margin-top: auto; font-size: 0.8rem; border: 1px solid #FFF; }
 
         #lixiPopup { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .lixi-envelope {
-            width: 300px; height: 500px; background: #EE0000; border: 5px solid var(--gold);
-            border-radius: 20px; display: flex; flex-direction: column; align-items: center; 
-            padding: 40px 20px; text-align: center; box-shadow: 0 0 100px var(--gold);
-            animation: openLixi 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes openLixi { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1); } }
-        .lixi-value { font-size: 3.5rem; font-weight: 900; color: var(--gold); margin: 40px 0; text-shadow: 3px 3px 0px #000; }
+        .lixi-envelope { width: 280px; height: 460px; background: #EE0000; border: 4px solid var(--gold); border-radius: 20px; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; text-align: center; box-shadow: 0 0 80px var(--gold); animation: openLixi 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes openLixi { from { transform: scale(0) rotate(-15deg); } to { transform: scale(1); } }
+        .lixi-value { font-size: 2.2rem; font-weight: 900; color: var(--gold); margin: 40px 0; text-shadow: 2px 2px 0px #000; }
         #ytPlayer { position: absolute; left: -9999px; }
     </style>
 </head>
@@ -106,7 +67,6 @@
             <div class="panel-title">🧧 KHO LÌ XÌ</div>
             <div id="statsArea" style="overflow-y: auto; flex: 1;"></div>
         </div>
-
         <div class="center-panel">
             <div class="wheel-container">
                 <div class="pointer"></div>
@@ -114,21 +74,19 @@
             </div>
             <button class="btn-receive" onclick="spinLixi()">🧧 NHẬN LÌ XÌ 🧧</button>
         </div>
-
         <div class="side-panel">
             <div class="panel-title">🎊 LỘC ĐÃ TRAO</div>
-            <div id="historyList" class="history-list"></div>
+            <div id="historyList" style="overflow-y: auto; flex: 1;"></div>
             <a href="admin.html" class="btn-config">⚙️ CÀI ĐẶT HỆ THỐNG</a>
         </div>
     </div>
 
     <div id="lixiPopup">
         <div class="lixi-envelope">
-            <div style="font-size: 5rem;">🧧</div>
-            <h2 style="color: white; margin: 10px 0; letter-spacing: 2px;">XIN CHÚC MỪNG</h2>
-            <p style="color: var(--gold); font-weight: bold;">Bạn vừa mở được bao</p>
+            <div style="font-size: 4rem;">🧧</div>
+            <h2 style="color: white; margin: 10px 0;">XIN CHÚC MỪNG</h2>
             <div class="lixi-value" id="winnerVal">...</div>
-            <button onclick="closePopup()" style="background: var(--gold); color:#8B0000; border:none; padding:15px 50px; border-radius:50px; font-weight:bold; cursor:pointer; margin-top: auto; font-size: 1.1rem;">CẢM ƠN 🧧</button>
+            <button onclick="closePopup()" style="background: var(--gold); color:#8B0000; border:none; padding:12px 40px; border-radius:50px; font-weight:bold; cursor:pointer; margin-top: auto;">CẢM ƠN 🧧</button>
         </div>
     </div>
 
@@ -138,9 +96,14 @@
         const canvas = document.getElementById('wheelCanvas'), ctx = canvas.getContext('2d');
         let lixiData = [], currentAngle = 0, isSpinning = false, player, musicInited = false;
 
+        // Hàm định dạng tiền tệ VNĐ
+        function formatVND(amount) {
+            return new Intl.NumberFormat('vi-VN').format(amount) + " VNĐ";
+        }
+
         const defaultLixi = [
-            {val: "10k", qty: 50}, {val: "20k", qty: 30}, {val: "50k", qty: 20},
-            {val: "100k", qty: 10}, {val: "200k", qty: 5}, {val: "500k", qty: 2}
+            {val: 10000, qty: 50}, {val: 20000, qty: 30}, {val: 50000, qty: 20},
+            {val: 100000, qty: 10}, {val: 200000, qty: 5}, {val: 500000, qty: 2}
         ];
 
         function loadData() {
@@ -153,7 +116,7 @@
         function updateStatsUI() {
             document.getElementById('statsArea').innerHTML = lixiData.map(item => `
                 <div class="lixi-item ${item.qty <= 0 ? 'out-of-stock' : ''}">
-                    <div class="lixi-val">${item.val}</div>
+                    <div class="lixi-val">${formatVND(item.val)}</div>
                     <div class="lixi-qty">${item.qty} bao</div>
                 </div>
             `).join('');
@@ -167,23 +130,19 @@
                 ctx.beginPath(); ctx.fillStyle = i % 2 === 0 ? "#D40000" : "#FFD700";
                 ctx.moveTo(250,250); ctx.arc(250,250,240,angle,angle+arc); ctx.fill();
                 ctx.save(); ctx.translate(250,250); ctx.rotate(angle+arc/2); ctx.textAlign="right";
-                ctx.fillStyle = i % 2 === 0 ? "#FFD700" : "#000"; ctx.font="bold 20px Arial";
-                ctx.fillText(item.val, 235, 10); ctx.restore();
+                ctx.fillStyle = i % 2 === 0 ? "#FFD700" : "#000"; ctx.font="bold 14px Arial";
+                ctx.fillText(formatVND(item.val), 235, 7); ctx.restore();
             });
         }
 
         function spinLixi() {
             if (isSpinning) return;
             const total = lixiData.reduce((acc, curr) => acc + curr.qty, 0);
-            if(total <= 0) { alert("Hết lì xì rồi bạn ơi! Hẹn năm sau nhé!"); return; }
-
+            if(total <= 0) { alert("Hết lì xì rồi bạn ơi!"); return; }
             isSpinning = true;
-            const duration = Math.floor(Math.random()*5000) + 5000;
-            const startAngle = currentAngle;
-            const extraRotation = (Math.random()*5 + 10) * 2 * Math.PI;
-            const start = performance.now();
+            const duration = Math.floor(Math.random()*4001) + 5000;
+            const startAngle = currentAngle, extraRotation = (Math.random()*5 + 10) * 2 * Math.PI, start = performance.now();
             let lastTick = 0;
-
             function animate(time) {
                 const elapsed = time - start, progress = Math.min(elapsed / duration, 1);
                 currentAngle = startAngle + extraRotation * (1 - Math.pow(1 - progress, 4));
@@ -199,33 +158,24 @@
         function finishSpin() {
             const arc = (2 * Math.PI) / lixiData.length;
             const index = Math.floor(((1.5 * Math.PI - currentAngle) % (2 * Math.PI) + (2 * Math.PI)) % (2 * Math.PI) / arc);
-            
             if(lixiData[index].qty <= 0) { currentAngle += 0.1; isSpinning = false; spinLixi(); return; }
-
             const winner = lixiData[index];
             winner.qty--;
             localStorage.setItem('h_lixi_config', JSON.stringify(lixiData));
-            
             winSound.play().catch(()=>{});
-            document.getElementById('winnerVal').innerText = winner.val;
+            document.getElementById('winnerVal').innerText = formatVND(winner.val);
             document.getElementById('lixiPopup').style.display = 'flex';
-            confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 }, colors: ['#FFD700', '#FFFFFF', '#D40000'] });
-            
-            const li = document.createElement('div'); li.className = 'history-item';
-            li.innerHTML = `Lộc <strong>${winner.val}</strong> - <small>${new Date().toLocaleTimeString()}</small>`;
+            confetti({ particleCount: 300, spread: 80, origin: { y: 0.7 } });
+            const li = document.createElement('div');
+            li.style.padding = "10px"; li.style.background = "rgba(255,255,255,0.1)"; li.style.marginBottom = "5px"; li.style.borderRadius = "8px";
+            li.innerHTML = `Nhận <strong>${formatVND(winner.val)}</strong> - <small>${new Date().toLocaleTimeString()}</small>`;
             document.getElementById('historyList').prepend(li);
-            updateStatsUI();
-            isSpinning = false;
+            updateStatsUI(); isSpinning = false;
         }
 
-        // --- NHẠC & KHỞI TẠO ---
         const tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(tag);
         function onYouTubeIframeAPIReady() {
-            player = new YT.Player('ytPlayer', {
-                height: '1', width: '1', videoId: 'Y9jA80M85nQ', // Nhạc Tết rộn ràng
-                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'Y9jA80M85nQ' },
-                events: { 'onReady': (e) => e.target.playVideo() }
-            });
+            player = new YT.Player('ytPlayer', { height: '1', width: '1', videoId: 'Y9jA80M85nQ', playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'Y9jA80M85nQ' } });
         }
         function initApp() { if (!musicInited && player) { player.playVideo(); musicInited = true; } }
         function closePopup() { document.getElementById('lixiPopup').style.display = 'none'; }
